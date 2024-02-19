@@ -3,6 +3,7 @@
 ## Shell_NotifyIconW function: https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shell_notifyiconw
 ## NOTIFYICONDATAW structure: https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ns-shellapi-notifyicondataw
 
+import typing
 import time
 import ctypes
 from ctypes import wintypes
@@ -117,7 +118,8 @@ class ToastManager:
         # display icon to the status area
         toast = self.shell32.Shell_NotifyIconW(NIM_ADD, ctypes.byref(self.NID_struct))
         if not toast:
-            raise exceptions.InvalidToastException(f"Toast with identifier {self.NID_struct.uID} was either not deleted, has invalid members or has invalid struct types")
+            toast = self.shell32.Shell_NotifyIconW(NIM_MODIFY, ctypes.byref(self.NID_struct))
+            # raise exceptions.InvalidToastException(f"Toast with identifier {self.NID_struct.uID} was either not deleted, has invalid members or has invalid struct types")
     
     def delete_toast(self):
         self.shell32.Shell_NotifyIconW(NIM_DELETE, ctypes.byref(self.NID_struct))
@@ -156,9 +158,11 @@ class ToastManager:
         return self.NID_struct
     
     @NOTIFYICONDATAW.setter
-    def NOTIFYICONDATAW(self, **NOTIFYICONDATAW_members):
+    def NOTIFYICONDATAW(self, NOTIFYICONDATAW_members: dict[str, typing.Any]):
         """
         NOTIFYICONDATAW_members may only contain verified NOTIFYICONDATAW structure members. The toast will not work if otherwise.
         """
         for member, value in NOTIFYICONDATAW_members.items():
             setattr(self.NID_struct, member, value)
+
+__all__ = ["ToastManager"]
