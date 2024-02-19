@@ -84,10 +84,11 @@ class ToastManager:
         ## user32 CreateWindowExW
 
     def create_toast(self, message: str, title: str, icon_path=None):
+        ### Shout-out to Windows for making their massive Win32 api documentation extensive and nice to read
+        ### Dm me on Discord (PogoDigitalism) if you need help to understand whats going on
+
         # instance NOTIFYICONDATAW struct
         self.NID_struct: ctypes.Structure = _NOTIFYICONDATAW()
-
-        # set struct member values
 
         self.NID_struct.cbSize = ctypes.sizeof(self.NID_struct) # UINT representing byte size
 
