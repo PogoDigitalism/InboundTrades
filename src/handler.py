@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from ui.submit_data import SubmitDataApp
 from data.data_manager import DataManager
 from utils.syncinasync import SyncInAsync
-from win_comms.toast_managener import ToastManager
+from win_comms.toast_manager import ToastManager
 from http_comms.http_manager import HttpManager
 
 class Handler:
