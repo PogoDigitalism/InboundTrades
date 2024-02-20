@@ -3,14 +3,23 @@ import sys
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
-from ui.submit_data import SubmitDataApp
-from data.data_manager import DataManager
-from utils.syncinasync import SyncInAsync
-from win_comms.toast_manager import ToastManager
-from http_comms.http_manager import HttpManager
+from log_comms import Log, LogAction
+from ui import SubmitDataApp
+from data import DataManager
+from utils import SyncInAsync
+from win_comms import ToastManager
+from http_comms import HttpManager
+from threading import Thread
+
+INBOUND_COOLDOWN = 5
+TOAST_DISPLAY_TIME = 6
 
 class Handler:
     def __init__(self) -> None:
+        Log.warning("------------- BOOT -------------")
+
+
+        self._toast_queue = list()
         # DATA INITIALIZATION
         self.data_manager = DataManager()
 
@@ -24,15 +33,18 @@ class Handler:
                 sys.exit()
 
         pool = ThreadPoolExecutor()
-        loop = asyncio.get_event_loop()
+        self._loop = asyncio.get_event_loop()
 
         self.toast_manager = ToastManager()
         self.sync_in_async = SyncInAsync(POOL=pool)
         self.http_manager = HttpManager()
 
-        self._validate()
+        self._validate_cookie()
+        self.http_manager.initialize_session()
 
-    def _validate(self):
+        Log.info("Initialized Handler")
+
+    def _validate_cookie(self):
         is_success = self.http_manager.validate_cookie()
         if not is_success:
             # Initiate UI booter for invalid data:  
@@ -41,17 +53,31 @@ class Handler:
 
             #recursion to check for a valid cookie again.
             if saved:
-                return self._validate()
+                return self._validate_cookie()
+        else:
+            Log.info("Validated cookie")
 
     async def _handle_toast(self):
-        pass
+        Thread(target=self.toast_manager.initialize_window_handler, daemon=True).start() # set as daemon background thread so that it exists on program exit.
+
+        while True:
+            if self._toast_queue:
+                inbound = self._toast_queue[0]          
+                self.toast_manager.create_toast(message=f"{inbound.username} | Trade inbound", title=f"{inbound.username} | Trade inbound")
+                del self._toast_queue[0]
+
+                await asyncio.sleep(TOAST_DISPLAY_TIME)
+
+                self.toast_manager.delete_toast()
+            await asyncio.sleep(0.01) # have to add this to not block the event loop
 
     async def check_inbounds(self):
+        self._loop.create_task(self._handle_toast())
         while True:
-            self.toast_manager.create_toast("test", "big test")
+            inbound_data = await self.http_manager.check_inbound_trades()
+            self._toast_queue.extend(inbound_data)
 
-            await asyncio.sleep(5)
-            self.toast_manager.delete_toast()
+            await asyncio.sleep(INBOUND_COOLDOWN)
 
 async def run():
     handler = Handler()
