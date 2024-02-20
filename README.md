@@ -33,7 +33,7 @@ Trade Notifier comes with a clickable Windows notification
 </div>
 
 - ### Auto startup 😎
-With the downloadable executable, you can automatically make Trade Notifier start-up. 
+With the downloadable executable, you can automatically make Trade Notifier start-up. < SOON
 
 - ### A user interface for submitting your `.ROBLOSECURITY` cookie. 🖥️
 Cookies are validated on each startup. In case of invalidation or expiry, the user interface will allow for refreshing the cookie.
