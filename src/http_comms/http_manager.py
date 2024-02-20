@@ -202,65 +202,65 @@ class HttpManager:
 
         new_inbounds_list = []
 
-        # inbound_id_list = [inbound["id"] for inbound in inbound_trades_list["data"]]
-        # if self._cached_inbound_id_list and any(new_inbounds := [inbound for inbound in inbound_trades_list["data"] if not inbound["id"] in self._cached_inbound_id_list]):
-        #     new_inbounds_list = [inbound['id'] for inbound in new_inbounds]
+        inbound_id_list = [inbound["id"] for inbound in inbound_trades_list["data"]]
+        if self._cached_inbound_id_list and any(new_inbounds := [inbound for inbound in inbound_trades_list["data"] if not inbound["id"] in self._cached_inbound_id_list]):
+            new_inbounds_list = [inbound['id'] for inbound in new_inbounds]
 
-        #     Log.info(f"New inbounds detected: {new_inbounds_list}")
+            Log.info(f"New inbounds detected: {new_inbounds_list}")
 
-        #     for inbound in new_inbounds:
-        #         inbound_trade_info = await self.sync_in_async.Call(self._get_trade_info, id=inbound["id"])
-        #         if inbound_trade_info:
-        #             give_value, receive_value = self._items_to_value(trade_info=inbound_trade_info)
+            for inbound in new_inbounds:
+                inbound_trade_info = await self.sync_in_async.Call(self._get_trade_info, id=inbound["id"])
+                if inbound_trade_info:
+                    give_value, receive_value = self._items_to_value(trade_info=inbound_trade_info)
 
-        #             inbound_data = InboundData(
-        #                                     username=inbound["user"]["name"],
-        #                                     user_id=inbound["user"]["id"],
+                    inbound_data = InboundData(
+                                            username=inbound["user"]["name"],
+                                            user_id=inbound["user"]["id"],
 
-        #                                     give_items=inbound_trade_info["offers"][0]["userAssets"],
-        #                                     give_value=give_value,
-        #                                     give_robux=inbound_trade_info["offers"][0]["robux"],
+                                            give_items=inbound_trade_info["offers"][0]["userAssets"],
+                                            give_value=give_value,
+                                            give_robux=inbound_trade_info["offers"][0]["robux"],
                                             
-        #                                     receive_items=inbound_trade_info["offers"][1]["userAssets"],
-        #                                     receive_value=receive_value,
-        #                                     receive_robux=inbound_trade_info["offers"][1]["robux"],
-        #                                     )          
-        #         else:
-        #             inbound_data = InboundData(
-        #                                     username=inbound["user"]["name"],
-        #                                     user_id=inbound["user"]["id"],
+                                            receive_items=inbound_trade_info["offers"][1]["userAssets"],
+                                            receive_value=receive_value,
+                                            receive_robux=inbound_trade_info["offers"][1]["robux"],
+                                            )          
+                else:
+                    inbound_data = InboundData(
+                                            username=inbound["user"]["name"],
+                                            user_id=inbound["user"]["id"],
 
-        #                                     give_items=[],
-        #                                     give_value="-",
-        #                                     give_robux="-",
+                                            give_items=[],
+                                            give_value="-",
+                                            give_robux="-",
                                             
-        #                                     receive_items=[],
-        #                                     receive_value="-",
-        #                                     receive_robux="-",
-        #                                     )                   
-        #         inbound_data_list.append(inbound_data)
+                                            receive_items=[],
+                                            receive_value="-",
+                                            receive_robux="-",
+                                            )                   
+                inbound_data_list.append(inbound_data)
 
-        # self._cached_inbound_id_list.extend(new_inbounds_list) if self._cached_inbound_id_list else self._cached_inbound_id_list.extend(inbound_id_list)
+        self._cached_inbound_id_list.extend(new_inbounds_list) if self._cached_inbound_id_list else self._cached_inbound_id_list.extend(inbound_id_list)
 
         ## for testing purposes
-        for inbound in inbound_trades_list["data"][:1]:
-            inbound_trade_info = await self.sync_in_async.Call(self._get_trade_info, id=inbound["id"])
-            if inbound_trade_info:
-                give_value, receive_value = self._items_to_value(trade_info=inbound_trade_info)
+        # for inbound in inbound_trades_list["data"][:1]:
+        #     inbound_trade_info = await self.sync_in_async.Call(self._get_trade_info, id=inbound["id"])
+        #     if inbound_trade_info:
+        #         give_value, receive_value = self._items_to_value(trade_info=inbound_trade_info)
 
-                inbound_data = InboundData(
-                                        username=inbound["user"]["name"],
-                                        user_id=inbound["user"]["id"],
+        #         inbound_data = InboundData(
+        #                                 username=inbound["user"]["name"],
+        #                                 user_id=inbound["user"]["id"],
 
-                                        give_items=inbound_trade_info["offers"][0]["userAssets"],
-                                        give_value=give_value,
-                                        give_robux=inbound_trade_info["offers"][0]["robux"],
+        #                                 give_items=inbound_trade_info["offers"][0]["userAssets"],
+        #                                 give_value=give_value,
+        #                                 give_robux=inbound_trade_info["offers"][0]["robux"],
                                         
-                                        receive_items=inbound_trade_info["offers"][1]["userAssets"],
-                                        receive_value=receive_value,
-                                        receive_robux=inbound_trade_info["offers"][1]["robux"],
-                                        )          
-                inbound_data_list.append(inbound_data)
+        #                                 receive_items=inbound_trade_info["offers"][1]["userAssets"],
+        #                                 receive_value=receive_value,
+        #                                 receive_robux=inbound_trade_info["offers"][1]["robux"],
+        #                                 )          
+        #         inbound_data_list.append(inbound_data)
 
         return inbound_data_list
 
