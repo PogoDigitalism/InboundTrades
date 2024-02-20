@@ -5,6 +5,7 @@
 ## ![inline image](https://github.com/PogoDigitalism/InboundTrades/assets/107322523/bb50198a-3446-4f17-8a8c-292f01bc1c9e) Trade Notifier by Pogo 
 #### A Roblox inbound trade notifier. Written with solely Python built-in modules.
 #### Latest version: V1.0 (Unstable)
+#### Latest branch: beta_1
 ___
 
 ## Key Libraries
