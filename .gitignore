@@ -1,2 +1,5 @@
 src/__pycache__
 src/venv
+src/data/storage/rosec.json
+src/log_comms/logs.txt
+src/log_comms/exception_logs.txt
