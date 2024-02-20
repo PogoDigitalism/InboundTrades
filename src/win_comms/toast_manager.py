@@ -164,11 +164,11 @@ class ToastManager:
         return self.user32.DefWindowProcW(hwnd, msg, wparam, ctypes.c_int64(lparam)) # message processing satisfyer
 
     def _create_window(self):
-        self.wnd_class = WNDCLASSW()
-        self.wnd_class.lpfnWndProc = WNDPROC(self._window_procedure) # set
-        self.wnd_class.lpszClassName = 'RobloxRedirect'
+        self.WND_struct = WNDCLASSW()
+        self.WND_struct.lpfnWndProc = WNDPROC(self._window_procedure) # set
+        self.WND_struct.lpszClassName = 'RobloxRedirect'
 
-        self.user32.RegisterClassW(ctypes.byref(self.wnd_class))
+        self.user32.RegisterClassW(ctypes.byref(self.WND_struct))
 
         self.hwnd = self.user32.CreateWindowExW(
             0,
