@@ -8,18 +8,18 @@ from ui import SubmitDataApp
 from data import DataManager
 from utils import SyncInAsync
 from win_comms import ToastManager
-from http_comms import HttpManager
+from http_comms import HttpManager, InboundData
 from threading import Thread
 
 INBOUND_COOLDOWN = 5
-TOAST_DISPLAY_TIME = 6
+TOAST_DISPLAY_TIME = 5
 
 class Handler:
     def __init__(self) -> None:
         Log.warning("------------- BOOT -------------")
 
 
-        self._toast_queue = list()
+        self._toast_queue: list[InboundData] = list()
         # DATA INITIALIZATION
         self.data_manager = DataManager()
 
@@ -62,8 +62,12 @@ class Handler:
 
         while True:
             if self._toast_queue:
-                inbound = self._toast_queue[0]          
-                self.toast_manager.create_toast(message=f"{inbound.username} | Trade inbound", title=f"{inbound.username} | Trade inbound")
+                inbound = self._toast_queue[0]
+
+                message = f"you: {inbound.give_value} value & {inbound.give_robux} Robux\n{inbound.username}: {inbound.receive_value} value & {inbound.receive_robux} Robux"
+                title = f"{inbound.username} | Trade Inbound"
+
+                self.toast_manager.create_toast(message=message, title=title)
                 del self._toast_queue[0]
 
                 await asyncio.sleep(TOAST_DISPLAY_TIME)
@@ -72,7 +76,11 @@ class Handler:
             await asyncio.sleep(0.01) # have to add this to not block the event loop
 
     async def check_inbounds(self):
-        self._loop.create_task(self._handle_toast())
+        self._loop.create_task(self.http_manager.refresh_valuelist()) # initialize Rolimons valuelist refresher
+        self._loop.create_task(self._handle_toast()) # initialize Toast (queue) handler 
+
+        await asyncio.sleep(2) # add a start-up little delay for the tasks.
+
         while True:
             inbound_data = await self.http_manager.check_inbound_trades()
             self._toast_queue.extend(inbound_data)
