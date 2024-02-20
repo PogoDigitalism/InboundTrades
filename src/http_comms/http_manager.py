@@ -26,7 +26,7 @@ XCSRF_URL = "https://auth.roblox.com/v2/logout"
 VALUE_LIST_URL = "https://api.rolimons.com/items/v1/itemdetails"
 
 XCSRF_REFRESH_TIME = 25*60
-ROLIVALUES_REFRESH_TIME = 1*60
+ROLIVALUES_REFRESH_TIME = 1.5*60
 
 @dataclass
 class InboundData:
