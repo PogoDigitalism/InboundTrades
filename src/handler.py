@@ -54,6 +54,8 @@ class Handler:
             #recursion to check for a valid cookie again.
             if saved:
                 return self._validate_cookie()
+            else:
+                sys.exit()
         else:
             Log.info("Validated cookie")
 
