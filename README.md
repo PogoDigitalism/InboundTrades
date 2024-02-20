@@ -28,8 +28,9 @@ With a maximum delay of only **5** seconds, you can quickly act on new trades an
 
 - ### Clickable Windows notifications. 🔗
 Trade Notifier comes with a clickable Windows notification
+
 <div align="center">
-    <img src="https://github.com/PogoDigitalism/InboundTrades/assets/107322523/b3a31fd4-a5db-4cc2-8ceb-5d5a7618e66b" alt="Image">
+    <img src="https://github.com/PogoDigitalism/TradeNotifier/assets/107322523/9e6fa187-0cb2-4fbb-a4ec-485907c81960" alt="Image">
 </div>
 
 - ### Auto startup 😎
@@ -46,5 +47,5 @@ Cookies are validated on each startup. In case of invalidation or expiry, the us
 Logs are shown in the console and stored in the `src -> log_comms -> logs` folder.
 
 <div align="center">
-    <img src="https://github.com/PogoDigitalism/InboundTrades/assets/107322523/9554eb5f-c009-445c-be43-50504eabffc2" alt="Image">
+    <img src="https://github.com/PogoDigitalism/TradeNotifier/assets/107322523/56218a1f-0b58-430c-a937-408e1eed4608" alt="Image" width=500>
 </div>
