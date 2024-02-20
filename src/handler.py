@@ -64,7 +64,7 @@ class Handler:
             if self._toast_queue:
                 inbound = self._toast_queue[0]
 
-                message = f"YOU: {inbound.give_value} value & {inbound.give_robux} Robux\n{inbound.username}: {inbound.receive_value} value & {inbound.receive_robux} Robux"
+                message = f"you: {inbound.give_value} value & {inbound.give_robux} Robux\n{inbound.username}: {inbound.receive_value} value & {inbound.receive_robux} Robux"
                 title = f"{inbound.username} | Trade Inbound"
 
                 self.toast_manager.create_toast(message=message, title=title)
@@ -76,7 +76,11 @@ class Handler:
             await asyncio.sleep(0.01) # have to add this to not block the event loop
 
     async def check_inbounds(self):
-        self._loop.create_task(self._handle_toast())
+        self._loop.create_task(self.http_manager.refresh_valuelist()) # initialize Rolimons valuelist refresher
+        self._loop.create_task(self._handle_toast()) # initialize Toast (queue) handler 
+
+        await asyncio.sleep(2) # add a start-up little delay for the tasks.
+
         while True:
             inbound_data = await self.http_manager.check_inbound_trades()
             self._toast_queue.extend(inbound_data)
