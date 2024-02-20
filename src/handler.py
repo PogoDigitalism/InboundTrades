@@ -9,12 +9,16 @@ from data import DataManager
 from utils import SyncInAsync
 from win_comms import ToastManager
 from http_comms import HttpManager
+from threading import Thread
 
 INBOUND_COOLDOWN = 5
 TOAST_DISPLAY_TIME = 6
 
 class Handler:
     def __init__(self) -> None:
+        Log.warning("------------- BOOT -------------")
+
+
         self._toast_queue = list()
         # DATA INITIALIZATION
         self.data_manager = DataManager()
@@ -54,14 +58,18 @@ class Handler:
             Log.info("Validated cookie")
 
     async def _handle_toast(self):
+        Thread(target=self.toast_manager.initialize_window_handler, daemon=True).start() # set as daemon background thread so that it exists on program exit.
+
         while True:
             if self._toast_queue:
                 inbound = self._toast_queue[0]          
-                self.toast_manager.create_toast(message=f"{inbound.username} | Trade inbound", title="")
+                self.toast_manager.create_toast(message=f"{inbound.username} | Trade inbound", title=f"{inbound.username} | Trade inbound")
                 del self._toast_queue[0]
 
                 await asyncio.sleep(TOAST_DISPLAY_TIME)
+
                 self.toast_manager.delete_toast()
+            await asyncio.sleep(0.01) # have to add this to not block the event loop
 
     async def check_inbounds(self):
         self._loop.create_task(self._handle_toast())

@@ -71,9 +71,10 @@ class SyncInAsync:
 
         Don't forget to await!
         """
-        self._future: asyncio.Future = self._LOOP.run_in_executor(self._POOL, partial(func, **kwargs), *args)
+        self._future: asyncio.Future =  self._LOOP.run_in_executor(self._POOL, partial(func, **kwargs), *args)
 
         self._result = await self._future
+
         return self._result
 
     @property

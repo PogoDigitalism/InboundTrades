@@ -1,6 +1,6 @@
 import asyncio
 import typing
-from time import time
+import time
 import json
 import urllib.request as request
 import urllib.parse as parse
@@ -80,12 +80,11 @@ class HttpManager:
                     ...
                     # INVALID XCSRF STUFF
 
-            self._xcsrf = None
             await asyncio.sleep(XCSRF_REFRESH_TIME)
+            self._xcsrf = None
 
     def _get_inbound_trades(self):
         request_struct = request.Request(url=TRADE_URL, method="GET")
-        print(self._cookie_str, self._xcsrf)
         request_struct.add_header("Cookie", f".ROBLOSECURITY={self._cookie_str}")
         request_struct.add_header("x-csrf-token", self._xcsrf)
         request_struct.add_header("content-type", "application/json")
@@ -96,14 +95,15 @@ class HttpManager:
             match resp.code:
                 case 403:
                     self._get_xcsrf()
-                    return False
 
                 case _:
+                    ...
 
-                    return False
+            return False
         else:
             response_content = resp.read()
             json_response = json.loads(response_content.decode('utf-8'))
+
             return json_response
 
     async def check_inbound_trades(self) -> list[InboundData] | None:
@@ -112,14 +112,24 @@ class HttpManager:
 
         new_inbounds_list = []
 
-        if self._cached_inbound_id_list and any(new_inbounds := [inbound for inbound in inbound_trades_list["data"] if not inbound["id"] in self._cached_inbound_id_list]):
-            new_inbounds_list = [inbound['id'] for inbound in new_inbounds]
-            for inbound in new_inbounds:
-                inbound_data = InboundData(username=inbound["user"]["name"],
-                                           user_id=inbound["user"]["id"])
-                inbound_data_list.append(inbound_data)
+        # inbound_id_list = [inbound["id"] for inbound in inbound_trades_list["data"]]
+        # if self._cached_inbound_id_list and any(new_inbounds := [inbound for inbound in inbound_trades_list["data"] if not inbound["id"] in self._cached_inbound_id_list]):
+        #     new_inbounds_list = [inbound['id'] for inbound in new_inbounds]
+        #     Log.info(f"New inbounds detected: {new_inbounds_list}")
 
-        self._cached_inbound_id_list.extend(new_inbounds_list)
+        #     for inbound in new_inbounds:
+        #         inbound_data = InboundData(username=inbound["user"]["name"],
+        #                                    user_id=inbound["user"]["id"])
+        #         inbound_data_list.append(inbound_data)
+
+        # self._cached_inbound_id_list.extend(new_inbounds_list) if self._cached_inbound_id_list else self._cached_inbound_id_list.extend(inbound_id_list)
+
+
+        for inbound in inbound_trades_list["data"]:
+            inbound_data = InboundData(username=inbound["user"]["name"],
+                                        user_id=inbound["user"]["id"])
+            inbound_data_list.append(inbound_data)
+
         return inbound_data_list
 
     def quit_session(self):
