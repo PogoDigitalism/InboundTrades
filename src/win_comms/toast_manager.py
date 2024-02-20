@@ -88,6 +88,32 @@ class ToastManager:
         self._create_window()
         self._message_loop()
 
+    @staticmethod
+    def spawn_toast(message: str, title: str, display_time: int, icon_path=None):
+            """
+            Spawn a toast with no interaction
+            """
+            shell32 = ctypes.windll.shell32
+
+            NID_struct: ctypes.Structure = _NOTIFYICONDATAW()
+            NID_struct.cbSize = ctypes.sizeof(NID_struct) # UINT representing byte size
+            NID_struct.hWnd = 0 #UINT
+            NID_struct.uID = 0 #UINT
+            NID_struct.uFlags = NIF_TIP | NIF_INFO | NIF_SHOWTIP # UINT
+            NID_struct.hIcon = ToastManager.__load_icon(icon_path) if icon_path else 0
+            NID_struct.szTip = message # WCHAR
+            NID_struct.szInfo = message # WCHAR
+            NID_struct.szInfoTitle = title # WCHAR
+            toast = shell32.Shell_NotifyIconW(NIM_ADD, ctypes.byref(NID_struct))
+            if not toast:
+                toast = shell32.Shell_NotifyIconW(NIM_MODIFY, ctypes.byref(NID_struct))
+
+            time.sleep(display_time)
+
+            shell32.Shell_NotifyIconW(NIM_DELETE, ctypes.byref(NID_struct))
+
+                # raise exceptions.InvalidToastException(f"Toast with identifier {self.NID_struct.uID} was either not deleted, has invalid members or has invalid struct types")
+
     def create_toast(self, message: str, title: str, icon_path=None):
         ### Shout-out to Windows for making their massive Win32 api documentation detailed and nice to read
         ### Dm me on Discord (PogoDigitalism) if you need help to understand whats going on
@@ -118,7 +144,7 @@ class ToastManager:
 
         self.NID_struct.szInfo = message # WCHAR
 
-        self.NID_struct.szInfoTitle = title # WCHAR
+        self.NID_struct.szInfoTitle = '__'+ title # WCHAR # Tempory "__" addition to bypass the 2 character cut at the start of the title string, not sure what causes it.
 
         # display icon to the status area
         toast = self.shell32.Shell_NotifyIconW(NIM_ADD, ctypes.byref(self.NID_struct))

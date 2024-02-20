@@ -112,14 +112,14 @@ class Log:
         try:
             resp = func(request_struct, *args, **kwargs)
 
-            Log.info(f"Opened URL: {resp.url} with code {resp.code}")
+            Log.info(f"Opened URL: {request_struct.get_method()} {resp.url} with code {resp.code}")
 
             return resp
         except error.HTTPError as resp:
             if resp.code not in success_codes:
-                Log.critical(f"HTTPError at {func.__name__}: [{resp.code}] | {resp.read()}")
+                Log.critical(f"HTTPError for {request_struct.get_method()} {resp.url}: [{resp.code}] | {resp.read()}")
             else:
-                Log.info(f"Opened URL: {resp.url} with code {resp.code}")
+                Log.info(f"Opened URL: {request_struct.get_method()} {resp.url} with code {resp.code}")
             raise resp
 
     @staticmethod

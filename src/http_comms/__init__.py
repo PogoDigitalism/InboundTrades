@@ -1,3 +1,3 @@
 from .http_manager import *
 
-__all__ = ('HttpManager')
+__all__ = ('HttpManager','InboundData')
