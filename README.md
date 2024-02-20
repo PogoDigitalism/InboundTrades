@@ -18,10 +18,10 @@ Trade Notifier primarily makes use of the following libraries:
 
 ## Features
 - ### its FREE 🎉
-The Trade Notifier is completey free-to-use and open-sourced.
+Trade Notifier is completey free-to-use and open-sourced.
 
 - ### Low delay 🚀
-With a maximum delay of **5** seconds, you can quickly act on new trades (and potential snipes)
+With a maximum delay of only **5** seconds, you can quickly act on new trades and potential snipes
 <div align="center">
     <img src="https://github.com/PogoDigitalism/InboundTrades/assets/107322523/37db636f-f838-456a-9916-4bc40dd45b73" alt="Image">
 </div>
@@ -33,10 +33,10 @@ Trade Notifier comes with a clickable Windows notification
 </div>
 
 - ### Auto startup 😎
-With the downloadable executable, you can automatically make Trade Notifier start-up. < SOON
+With the downloadable executable, you can automatically make Trade Notifier start-up when turning on your computer. < SOON
 
 - ### A user interface for submitting your `.ROBLOSECURITY` cookie. 🖥️
-Cookies are validated on each startup. In case of invalidation or expiry, the user interface will allow for refreshing the cookie.
+Cookies are validated on each startup. In case of invalidation or expiry, the user interface will easily allow for refreshing the cookie.
 <div align="center">
     <img src="https://github.com/PogoDigitalism/InboundTrades/assets/107322523/4d21973b-476c-4bbd-8e3b-57db1ee5e207" alt="Image">
 </div>
