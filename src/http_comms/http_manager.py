@@ -68,6 +68,9 @@ class HttpManager:
                 case 403:
                     self._xcsrf = resp.headers.get("x-csrf-token", failobj=None)
                     return True
+                
+                case 401:
+                    return False
 
                 case _:
                     return False
@@ -93,7 +96,7 @@ class HttpManager:
             resp = Log.wrap_http(self._opener.open, request_struct=request_struct, success_codes=[200, 201])
         except error.HTTPError as resp:
             match resp.code:
-                case 403:
+                case 400:
                     self._get_xcsrf()
 
                 case _:
