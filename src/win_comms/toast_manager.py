@@ -89,7 +89,7 @@ class ToastManager:
         self._message_loop()
 
     def create_toast(self, message: str, title: str, icon_path=None):
-        ### Shout-out to Windows for making their massive Win32 api documentation extensive and nice to read
+        ### Shout-out to Windows for making their massive Win32 api documentation detailed and nice to read
         ### Dm me on Discord (PogoDigitalism) if you need help to understand whats going on
 
 
