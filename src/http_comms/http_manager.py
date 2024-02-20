@@ -112,23 +112,23 @@ class HttpManager:
 
         new_inbounds_list = []
 
-        # inbound_id_list = [inbound["id"] for inbound in inbound_trades_list["data"]]
-        # if self._cached_inbound_id_list and any(new_inbounds := [inbound for inbound in inbound_trades_list["data"] if not inbound["id"] in self._cached_inbound_id_list]):
-        #     new_inbounds_list = [inbound['id'] for inbound in new_inbounds]
-        #     Log.info(f"New inbounds detected: {new_inbounds_list}")
+        inbound_id_list = [inbound["id"] for inbound in inbound_trades_list["data"]]
+        if self._cached_inbound_id_list and any(new_inbounds := [inbound for inbound in inbound_trades_list["data"] if not inbound["id"] in self._cached_inbound_id_list]):
+            new_inbounds_list = [inbound['id'] for inbound in new_inbounds]
+            Log.info(f"New inbounds detected: {new_inbounds_list}")
 
-        #     for inbound in new_inbounds:
-        #         inbound_data = InboundData(username=inbound["user"]["name"],
-        #                                    user_id=inbound["user"]["id"])
-        #         inbound_data_list.append(inbound_data)
+            for inbound in new_inbounds:
+                inbound_data = InboundData(username=inbound["user"]["name"],
+                                           user_id=inbound["user"]["id"])
+                inbound_data_list.append(inbound_data)
 
-        # self._cached_inbound_id_list.extend(new_inbounds_list) if self._cached_inbound_id_list else self._cached_inbound_id_list.extend(inbound_id_list)
+        self._cached_inbound_id_list.extend(new_inbounds_list) if self._cached_inbound_id_list else self._cached_inbound_id_list.extend(inbound_id_list)
 
-
-        for inbound in inbound_trades_list["data"]:
-            inbound_data = InboundData(username=inbound["user"]["name"],
-                                        user_id=inbound["user"]["id"])
-            inbound_data_list.append(inbound_data)
+        ## for testing purposes
+        # for inbound in inbound_trades_list["data"]:
+        #     inbound_data = InboundData(username=inbound["user"]["name"],
+        #                                 user_id=inbound["user"]["id"])
+        #     inbound_data_list.append(inbound_data)
 
         return inbound_data_list
 
