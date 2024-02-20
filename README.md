@@ -43,7 +43,7 @@ Cookies are validated on each startup. In case of invalidation or expiry, the us
 
 
 - ### Logs 🧾
-Logs are shown in the console and stored in the `src -> data -> storage` folder.
+Logs are shown in the console and stored in the `src -> log_comms -> logs` folder.
 
 <div align="center">
     <img src="https://github.com/PogoDigitalism/InboundTrades/assets/107322523/9554eb5f-c009-445c-be43-50504eabffc2" alt="Image">
