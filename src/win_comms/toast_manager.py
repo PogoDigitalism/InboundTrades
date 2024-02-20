@@ -102,10 +102,10 @@ class ToastManager:
         
         self.NID_struct.uID = 0 #UINT
 
-        # Use bitwise OR "|" operator for proper flag manipulation
+        # use bitwise OR "|" operator for proper flag manipulation
         self.NID_struct.uFlags = NIF_TIP | NIF_INFO | NIF_SHOWTIP | NIF_MESSAGE # UINT
 
-        # TODO: uCallbackMessage for Window class
+        # uCallbackMessage for Window class
         self.NID_struct.uCallbackMessage = WM_TOAST_CLICKED # UINT
 
         self.NID_struct.hIcon = self.__load_icon(icon_path) if icon_path else 0
