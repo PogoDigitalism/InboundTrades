@@ -30,7 +30,7 @@ With a maximum delay of only **5** seconds, you can quickly act on new trades an
 Trade Notifier comes with a clickable Windows notification
 
 <div align="center">
-    <img src="https://github.com/PogoDigitalism/TradeNotifier/assets/107322523/9e6fa187-0cb2-4fbb-a4ec-485907c81960" alt="Image">
+    <img src="https://github.com/PogoDigitalism/TradeNotifier/assets/107322523/2c9e2548-6e10-491a-a4ac-b8c8f7196120" alt="Image">
 </div>
 
 - ### Auto startup 😎
