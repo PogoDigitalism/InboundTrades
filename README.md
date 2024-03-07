@@ -33,9 +33,6 @@ Trade Notifier comes with a clickable Windows notification that opens up the tra
     <img src="https://github.com/PogoDigitalism/TradeNotifier/assets/107322523/2c9e2548-6e10-491a-a4ac-b8c8f7196120" alt="Image">
 </div>
 
-- ### Auto startup 😎
-With the downloadable executable, you can automatically make Trade Notifier start-up when turning on your computer. < SOON
-
 - ### A user interface for submitting your `.ROBLOSECURITY` cookie. 🖥️
 Cookies are validated on each startup. In case of invalidation or expiry, the user interface will easily allow for refreshing the cookie.
 <div align="center">
