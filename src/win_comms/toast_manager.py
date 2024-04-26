@@ -78,7 +78,7 @@ class _NOTIFYICONDATAW(ctypes.Structure):
 
 class ToastManager:
     """
-    Proud of this one.
+    Nice
     """
     def __init__(self) -> None:
         self.shell32 = ctypes.windll.shell32
